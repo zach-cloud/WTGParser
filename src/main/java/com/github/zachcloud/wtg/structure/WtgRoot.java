@@ -1,8 +1,11 @@
 package com.github.zachcloud.wtg.structure;
 
+import com.github.zachcloud.exception.WtgFormatException;
 import com.github.zachcloud.interfaces.IReadable;
 import com.github.zachcloud.reader.BinaryReader;
+import com.github.zachcloud.wtg.WtgConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +23,12 @@ public class WtgRoot implements IReadable {
     private int triggerCount; // Number of triggers
     private List<Trigger> triggers; // Repeat the Trigger structure z times
 
+    public WtgRoot() {
+        triggerCategories = new ArrayList<>();
+        variables = new ArrayList<>();
+        triggers = new ArrayList<>();
+    }
+
     /**
      * Reads from the linked Binary Reader into this structure.
      *
@@ -28,25 +37,59 @@ public class WtgRoot implements IReadable {
     @Override
     public void read(BinaryReader reader) {
         fileId = reader.readString();
+        checkFileId();
         fileFormat = reader.readInt();
+        checkFileFormat();
         triggerCategoryCount = reader.readInt();
+        readTriggerCategories();
+        unknown = reader.readInt();
+        checkUnknown();
+        variableCount = reader.readInt();
+        readVariables();
+        triggerCount = reader.readInt();
+        readTriggers();
+    }
+
+    private void checkUnknown() {
+        if(unknown != 0) {
+            System.out.println("Novelty: unknown value was not 0 (unknown = " + unknown + ")");
+        }
+    }
+
+    private void readTriggers() {
+        for(int i = 0; i < triggerCount; i++) {
+            Trigger trigger = new Trigger();
+            //trigger.read();
+            triggers.add(trigger);
+        }
+    }
+
+    private void readVariables() {
+        for(int i = 0; i < variableCount; i++) {
+            Variable variable = new Variable(fileFormat);
+            //variable.read();
+            variables.add(variable);
+        }
+    }
+
+    private void readTriggerCategories() {
         for(int i = 0; i < triggerCategoryCount; i++) {
             TriggerCategory category = new TriggerCategory();
             //category.read();
             triggerCategories.add(category);
         }
-        unknown = reader.readInt();
-        variableCount = reader.readInt();
-        for(int i = 0; i < variableCount; i++) {
-            Variable variable = new Variable();
-            //variable.read();
-            variables.add(variable);
+    }
+
+    private void checkFileFormat() {
+        if(fileFormat != WtgConstants.REIGN_OF_CHAOS_FORMAT &&
+                fileFormat != WtgConstants.THE_FROZEN_THRONE_FORMAT) {
+            throw new WtgFormatException("Not a RoC or TFT file (format = " + fileFormat + ")");
         }
-        triggerCount = reader.readInt();
-        for(int i = 0; i < triggerCount; i++) {
-            Trigger trigger = new Trigger();
-            //trigger.read();
-            triggers.add(trigger);
+    }
+
+    private void checkFileId() {
+        if(!fileId.equals("WTG!")) {
+            throw new WtgFormatException("Not a WTG File (fileId = " + fileId + ")");
         }
     }
 
@@ -60,7 +103,7 @@ public class WtgRoot implements IReadable {
     @Override
     public String toString() {
         return "fId=" + fileId + ",format=" + fileFormat +
-                ",categories=" + triggerCategories + ",variables="
+                ",categories=" + triggerCategoryCount + ",variables="
                 + variableCount + ",triggers=" + triggerCount;
     }
 }
