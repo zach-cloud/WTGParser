@@ -54,6 +54,8 @@ public class Variable implements IReadable {
      */
     @Override
     public String toString() {
-        return super.toString();
+        return "(name=" + name + ",type=" + type + ",array=" + isArray +
+                ",size=" + arraySize + ",isInit=" + isInitialized +
+                ",init=" + initialValue + ")";
     }
 }

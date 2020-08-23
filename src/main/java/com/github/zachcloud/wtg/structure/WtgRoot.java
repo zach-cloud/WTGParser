@@ -36,46 +36,46 @@ public class WtgRoot implements IReadable {
      */
     @Override
     public void read(BinaryReader reader) {
-        fileId = reader.readString();
+        fileId = reader.readString(4);
         checkFileId();
         fileFormat = reader.readInt();
         checkFileFormat();
         triggerCategoryCount = reader.readInt();
-        readTriggerCategories();
+        readTriggerCategories(reader);
         unknown = reader.readInt();
         checkUnknown();
         variableCount = reader.readInt();
-        readVariables();
+        readVariables(reader);
         triggerCount = reader.readInt();
-        readTriggers();
+        readTriggers(reader);
     }
 
     private void checkUnknown() {
         if(unknown != 0) {
-            System.out.println("Novelty: unknown value was not 0 (unknown = " + unknown + ")");
+            System.out.println("Novelty: unknown value was not 0 (unknown = " + unknown + ") for root");
         }
     }
 
-    private void readTriggers() {
+    private void readTriggers(BinaryReader reader) {
         for(int i = 0; i < triggerCount; i++) {
-            Trigger trigger = new Trigger();
-            //trigger.read();
+            Trigger trigger = new Trigger(fileFormat);
+            trigger.read(reader);
             triggers.add(trigger);
         }
     }
 
-    private void readVariables() {
+    private void readVariables(BinaryReader reader) {
         for(int i = 0; i < variableCount; i++) {
             Variable variable = new Variable(fileFormat);
-            //variable.read();
+            variable.read(reader);
             variables.add(variable);
         }
     }
 
-    private void readTriggerCategories() {
+    private void readTriggerCategories(BinaryReader reader) {
         for(int i = 0; i < triggerCategoryCount; i++) {
-            TriggerCategory category = new TriggerCategory();
-            //category.read();
+            TriggerCategory category = new TriggerCategory(fileFormat);
+            category.read(reader);
             triggerCategories.add(category);
         }
     }

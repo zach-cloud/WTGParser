@@ -25,6 +25,15 @@ public class TriggerDataMapping implements ITriggerDataMapping {
      */
     private Map<String,Integer> mapping;
 
+    private static TriggerDataMapping instance;
+
+    public static TriggerDataMapping getInstance() {
+        if(instance == null) {
+            instance = new TriggerDataMapping();
+        }
+        return instance;
+    }
+
     /**
      * Sets up a default trigger data mapping
      * Uses internal TriggerData.txt
