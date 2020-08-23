@@ -1,5 +1,6 @@
 package com.github.zachcloud.triggerdata;
 
+import com.github.zachcloud.exception.InternalException;
 import com.github.zachcloud.exception.WtgReadingException;
 import com.github.zachcloud.interfaces.ITriggerDataMapping;
 
@@ -63,7 +64,7 @@ public class TriggerDataMapping implements ITriggerDataMapping {
             readTriggerDataFile(mappingFile);
         } catch (IOException ex) {
             ex.printStackTrace();
-            throw new WtgReadingException(ex);
+            throw new InternalException(ex);
         }
     }
 
@@ -103,7 +104,7 @@ public class TriggerDataMapping implements ITriggerDataMapping {
      * @param line              Entry from file
      */
     private void saveMapping(String currentSection, String line) {
-        String[] parts = line.split("=");
+        String[] parts = line.split("=", 2);
         // Ignore any garbage lines
         if(parts.length == 2) {
             String key = parts[0];
@@ -185,7 +186,7 @@ public class TriggerDataMapping implements ITriggerDataMapping {
     @Override
     public int get(String key) {
         if(!contains(key)) {
-            throw new IllegalArgumentException("Trigger data entry does not exist: " + key);
+            throw new InternalException("Trigger data entry does not exist: " + key);
         }
         return mapping.get(key);
     }
