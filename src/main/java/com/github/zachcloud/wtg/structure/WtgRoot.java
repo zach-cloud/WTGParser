@@ -7,6 +7,7 @@ import com.github.zachcloud.wtg.WtgConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The root of the WTG Structure.
@@ -23,6 +24,9 @@ public class WtgRoot implements IReadable {
     private int triggerCount; // Number of triggers
     private List<Trigger> triggers; // Repeat the Trigger structure z times
 
+    /**
+     * Makes a new WTG Root.
+     */
     public WtgRoot() {
         triggerCategories = new ArrayList<>();
         variables = new ArrayList<>();
@@ -50,12 +54,22 @@ public class WtgRoot implements IReadable {
         readTriggers(reader);
     }
 
+    /**
+     * Checks value of unknown field.
+     * If it is not what we expected, it doesn't mean anything
+     * is wrong. We just log it out of interest.
+     */
     private void checkUnknown() {
         if(unknown != 0) {
             System.out.println("Novelty: unknown value was not 0 (unknown = " + unknown + ") for root");
         }
     }
 
+    /**
+     * Reads all triggers.
+     *
+     * @param reader    Binary reader
+     */
     private void readTriggers(BinaryReader reader) {
         for(int i = 0; i < triggerCount; i++) {
             Trigger trigger = new Trigger(fileFormat);
@@ -64,6 +78,11 @@ public class WtgRoot implements IReadable {
         }
     }
 
+    /**
+     * Reads all variables.
+     *
+     * @param reader    Binary reader
+     */
     private void readVariables(BinaryReader reader) {
         for(int i = 0; i < variableCount; i++) {
             Variable variable = new Variable(fileFormat);
@@ -72,6 +91,11 @@ public class WtgRoot implements IReadable {
         }
     }
 
+    /**
+     * Reads all trigger categories
+     *
+     * @param reader    Binary reader
+     */
     private void readTriggerCategories(BinaryReader reader) {
         for(int i = 0; i < triggerCategoryCount; i++) {
             TriggerCategory category = new TriggerCategory(fileFormat);
@@ -80,6 +104,10 @@ public class WtgRoot implements IReadable {
         }
     }
 
+    /**
+     * Checks the file format.
+     * If the file format is unrecognized, we fail the reading.
+     */
     private void checkFileFormat() {
         if(fileFormat != WtgConstants.REIGN_OF_CHAOS_FORMAT &&
                 fileFormat != WtgConstants.THE_FROZEN_THRONE_FORMAT) {
@@ -87,23 +115,50 @@ public class WtgRoot implements IReadable {
         }
     }
 
+    /**
+     * Checks the File ID
+     * If file id is not "WTG!", we fail the reading since it's
+     * not a wtg file
+     */
     private void checkFileId() {
         if(!fileId.equals("WTG!")) {
             throw new WtgFormatException("Not a WTG File (fileId = " + fileId + ")");
         }
     }
 
-    /**
-     * Returns the status of this object.
-     * Don't use this to convert back into WTG format.
-     * See the IWritable for this (will make it later)
-     *
-     * @return  Status of object
-     */
     @Override
     public String toString() {
-        return "fId=" + fileId + ",format=" + fileFormat +
-                ",categories=" + triggerCategoryCount + ",variables="
-                + variableCount + ",triggers=" + triggerCount;
+        return "WtgRoot{" +
+                "fileId='" + fileId + '\'' +
+                ", fileFormat=" + fileFormat +
+                ", triggerCategoryCount=" + triggerCategoryCount +
+                ", triggerCategories=" + triggerCategories +
+                ", unknown=" + unknown +
+                ", variableCount=" + variableCount +
+                ", variables=" + variables +
+                ", triggerCount=" + triggerCount +
+                ", triggers=" + triggers +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WtgRoot wtgRoot = (WtgRoot) o;
+        return fileFormat == wtgRoot.fileFormat &&
+                triggerCategoryCount == wtgRoot.triggerCategoryCount &&
+                unknown == wtgRoot.unknown &&
+                variableCount == wtgRoot.variableCount &&
+                triggerCount == wtgRoot.triggerCount &&
+                Objects.equals(fileId, wtgRoot.fileId) &&
+                Objects.equals(triggerCategories, wtgRoot.triggerCategories) &&
+                Objects.equals(variables, wtgRoot.variables) &&
+                Objects.equals(triggers, wtgRoot.triggers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fileId, fileFormat, triggerCategoryCount, triggerCategories, unknown, variableCount, variables, triggerCount, triggers);
     }
 }

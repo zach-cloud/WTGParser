@@ -6,6 +6,7 @@ import com.github.zachcloud.wtg.WtgConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Trigger implements IReadable {
 
@@ -22,6 +23,11 @@ public class Trigger implements IReadable {
     private int totalEcas;
     private List<ECA> ecas;
 
+    /**
+     * Makes a new trigger
+     *
+     * @param format    Format of file (4 or 7)
+     */
     public Trigger(int format) {
         this.format = format;
         ecas = new ArrayList<>();
@@ -54,6 +60,41 @@ public class Trigger implements IReadable {
 
     @Override
     public String toString() {
-        return "(name=" + name + ",desc=" + description + ",ecas=" + totalEcas + ")";
+        return "Trigger{" +
+                "format=" + format +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", isComment=" + isComment +
+                ", isEnabled=" + isEnabled +
+                ", isCustom=" + isCustom +
+                ", isInitiallyOff=" + isInitiallyOff +
+                ", runOnInit=" + runOnInit +
+                ", triggerCategoryId=" + triggerCategoryId +
+                ", totalEcas=" + totalEcas +
+                ", ecas=" + ecas +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Trigger trigger = (Trigger) o;
+        return format == trigger.format &&
+                isComment == trigger.isComment &&
+                isEnabled == trigger.isEnabled &&
+                isCustom == trigger.isCustom &&
+                isInitiallyOff == trigger.isInitiallyOff &&
+                runOnInit == trigger.runOnInit &&
+                triggerCategoryId == trigger.triggerCategoryId &&
+                totalEcas == trigger.totalEcas &&
+                Objects.equals(name, trigger.name) &&
+                Objects.equals(description, trigger.description) &&
+                Objects.equals(ecas, trigger.ecas);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(format, name, description, isComment, isEnabled, isCustom, isInitiallyOff, runOnInit, triggerCategoryId, totalEcas, ecas);
     }
 }

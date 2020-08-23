@@ -4,6 +4,11 @@ import com.github.zachcloud.interfaces.IReadable;
 import com.github.zachcloud.reader.BinaryReader;
 import com.github.zachcloud.wtg.WtgConstants;
 
+import java.util.Objects;
+
+/**
+ * A world editor variable
+ */
 public class Variable implements IReadable {
 
     private int format;
@@ -16,6 +21,11 @@ public class Variable implements IReadable {
     private int isInitialized; // (1 = yes, 0 = no)
     private String initialValue;
 
+    /**
+     * Makes a new variable
+     *
+     * @param format    Format of file (4 or 7)
+     */
     public Variable(int format) {
         this.format = format;
     }
@@ -39,23 +49,49 @@ public class Variable implements IReadable {
         initialValue = reader.readString();
     }
 
+
+    /**
+     * Checks the value of the unknown int.
+     * It's not a problem if it's not what we expect, we just
+     * log it out of interest.
+     */
     private void checkUnknown() {
         if(unknown != 1) {
             System.out.println("Novelty: unknown value was not 1 (unknown = " + unknown + ")");
         }
     }
 
-    /**
-     * Returns the status of this object.
-     * Don't use this to convert back into WTG format.
-     * See the IWritable for this (will make it later)
-     *
-     * @return  Status of object
-     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Variable variable = (Variable) o;
+        return format == variable.format &&
+                unknown == variable.unknown &&
+                isArray == variable.isArray &&
+                arraySize == variable.arraySize &&
+                isInitialized == variable.isInitialized &&
+                Objects.equals(name, variable.name) &&
+                Objects.equals(type, variable.type) &&
+                Objects.equals(initialValue, variable.initialValue);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(format, name, type, unknown, isArray, arraySize, isInitialized, initialValue);
+    }
+
     @Override
     public String toString() {
-        return "(name=" + name + ",type=" + type + ",array=" + isArray +
-                ",size=" + arraySize + ",isInit=" + isInitialized +
-                ",init=" + initialValue + ")";
+        return "Variable{" +
+                "format=" + format +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", unknown=" + unknown +
+                ", isArray=" + isArray +
+                ", arraySize=" + arraySize +
+                ", isInitialized=" + isInitialized +
+                ", initialValue='" + initialValue + '\'' +
+                '}';
     }
 }

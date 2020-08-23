@@ -3,6 +3,11 @@ package com.github.zachcloud.wtg.structure;
 import com.github.zachcloud.reader.BinaryReader;
 import com.github.zachcloud.wtg.WtgConstants;
 
+import java.util.Objects;
+
+/**
+ * A version 4 parameter.
+ */
 public class ParameterV4 extends Parameter {
 
     private static final int FORMAT = 4;
@@ -42,9 +47,46 @@ public class ParameterV4 extends Parameter {
         }
     }
 
+    /**
+     * Checks the value of the unknown int.
+     * It's not a problem if it's not what we expect, we just
+     * log it out of interest.
+     */
     private void checkUnknown() {
         if(unknown != 0) {
-            System.out.println("Novelty: Unknown is not 0 in Parameter V4");
+            System.out.println("Novelty: Unknown is not 0 in Parameter V4 (unknown=" + unknown + ")");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ParameterV4{" +
+                "type=" + type +
+                ", value='" + value + '\'' +
+                ", hasSubParameters=" + hasSubParameters +
+                ", subparameters=" + subparameters +
+                ", unknown=" + unknown +
+                ", isArray=" + isArray +
+                ", arrayIndex=" + arrayIndex +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ParameterV4 that = (ParameterV4) o;
+        return type == that.type &&
+                hasSubParameters == that.hasSubParameters &&
+                unknown == that.unknown &&
+                isArray == that.isArray &&
+                Objects.equals(value, that.value) &&
+                Objects.equals(subparameters, that.subparameters) &&
+                Objects.equals(arrayIndex, that.arrayIndex);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, value, hasSubParameters, subparameters, unknown, isArray, arrayIndex);
     }
 }

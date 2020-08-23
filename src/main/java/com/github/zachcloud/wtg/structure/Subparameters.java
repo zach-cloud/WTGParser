@@ -7,7 +7,11 @@ import com.github.zachcloud.wtg.WtgConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * The sub-parameter object for a parameter
+ */
 public class Subparameters implements IReadable {
 
     private int format;
@@ -16,6 +20,11 @@ public class Subparameters implements IReadable {
     private int beginParameters; // (0 = no, any other = yes)
     private List<Parameter> parameters; // Repeat the Parameter structure z times (where z is found in our lookup table for the key x)
 
+    /**
+     * Makes a new sub-parameter
+     *
+     * @param format    File format (4 or 7)
+     */
     public Subparameters(int format) {
         this.format = format;
         parameters = new ArrayList<>();
@@ -42,6 +51,29 @@ public class Subparameters implements IReadable {
 
     @Override
     public String toString() {
-        return "(name=" + name + ",type=" + type + ",begin=" + beginParameters + ",params=" + parameters.size() + ")";
+        return "Subparameters{" +
+                "format=" + format +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", beginParameters=" + beginParameters +
+                ", parameters=" + parameters +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subparameters that = (Subparameters) o;
+        return format == that.format &&
+                type == that.type &&
+                beginParameters == that.beginParameters &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(parameters, that.parameters);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(format, type, name, beginParameters, parameters);
     }
 }
