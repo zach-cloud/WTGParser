@@ -161,4 +161,76 @@ public class WtgRoot implements IReadable {
     public int hashCode() {
         return Objects.hash(fileId, fileFormat, triggerCategoryCount, triggerCategories, unknown, variableCount, variables, triggerCount, triggers);
     }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public int getFileFormat() {
+        return fileFormat;
+    }
+
+    public void setFileFormat(int fileFormat) {
+        this.fileFormat = fileFormat;
+    }
+
+    public int getTriggerCategoryCount() {
+        return triggerCategoryCount;
+    }
+
+    public void setTriggerCategoryCount(int triggerCategoryCount) {
+        this.triggerCategoryCount = triggerCategoryCount;
+    }
+
+    public List<TriggerCategory> getTriggerCategories() {
+        return triggerCategories;
+    }
+
+    public void setTriggerCategories(List<TriggerCategory> triggerCategories) {
+        this.triggerCategories = triggerCategories;
+    }
+
+    public int getUnknown() {
+        return unknown;
+    }
+
+    public void setUnknown(int unknown) {
+        this.unknown = unknown;
+    }
+
+    public int getVariableCount() {
+        return variableCount;
+    }
+
+    public void setVariableCount(int variableCount) {
+        this.variableCount = variableCount;
+    }
+
+    public List<Variable> getVariables() {
+        return variables;
+    }
+
+    public void setVariables(List<Variable> variables) {
+        this.variables = variables;
+    }
+
+    public int getTriggerCount() {
+        return triggerCount;
+    }
+
+    public void setTriggerCount(int triggerCount) {
+        this.triggerCount = triggerCount;
+    }
+
+    public List<Trigger> getTriggers() {
+        return triggers;
+    }
+
+    public void setTriggers(List<Trigger> triggers) {
+        this.triggers = triggers;
+    }
 }

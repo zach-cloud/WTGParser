@@ -116,4 +116,76 @@ public class ECA implements IReadable {
     public int hashCode() {
         return Objects.hash(format, isChildECA, type, group, name, isEnabled, parameters, ecaCount, childEcas);
     }
+
+    public int getFormat() {
+        return format;
+    }
+
+    public void setFormat(int format) {
+        this.format = format;
+    }
+
+    public boolean isChildECA() {
+        return isChildECA;
+    }
+
+    public void setChildECA(boolean childECA) {
+        isChildECA = childECA;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getGroup() {
+        return group;
+    }
+
+    public void setGroup(int group) {
+        this.group = group;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(int isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<Parameter> parameters) {
+        this.parameters = parameters;
+    }
+
+    public int getEcaCount() {
+        return ecaCount;
+    }
+
+    public void setEcaCount(int ecaCount) {
+        this.ecaCount = ecaCount;
+    }
+
+    public List<ECA> getChildEcas() {
+        return childEcas;
+    }
+
+    public void setChildEcas(List<ECA> childEcas) {
+        this.childEcas = childEcas;
+    }
 }

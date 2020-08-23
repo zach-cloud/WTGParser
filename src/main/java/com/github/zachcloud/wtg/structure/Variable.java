@@ -94,4 +94,68 @@ public class Variable implements IReadable {
                 ", initialValue='" + initialValue + '\'' +
                 '}';
     }
+
+    public int getFormat() {
+        return format;
+    }
+
+    public void setFormat(int format) {
+        this.format = format;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getUnknown() {
+        return unknown;
+    }
+
+    public void setUnknown(int unknown) {
+        this.unknown = unknown;
+    }
+
+    public int getIsArray() {
+        return isArray;
+    }
+
+    public void setIsArray(int isArray) {
+        this.isArray = isArray;
+    }
+
+    public int getArraySize() {
+        return arraySize;
+    }
+
+    public void setArraySize(int arraySize) {
+        this.arraySize = arraySize;
+    }
+
+    public int getIsInitialized() {
+        return isInitialized;
+    }
+
+    public void setIsInitialized(int isInitialized) {
+        this.isInitialized = isInitialized;
+    }
+
+    public String getInitialValue() {
+        return initialValue;
+    }
+
+    public void setInitialValue(String initialValue) {
+        this.initialValue = initialValue;
+    }
 }

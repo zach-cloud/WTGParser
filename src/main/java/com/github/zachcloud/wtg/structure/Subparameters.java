@@ -76,4 +76,44 @@ public class Subparameters implements IReadable {
     public int hashCode() {
         return Objects.hash(format, type, name, beginParameters, parameters);
     }
+
+    public int getFormat() {
+        return format;
+    }
+
+    public void setFormat(int format) {
+        this.format = format;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getBeginParameters() {
+        return beginParameters;
+    }
+
+    public void setBeginParameters(int beginParameters) {
+        this.beginParameters = beginParameters;
+    }
+
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<Parameter> parameters) {
+        this.parameters = parameters;
+    }
 }

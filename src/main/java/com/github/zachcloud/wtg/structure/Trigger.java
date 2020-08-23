@@ -97,4 +97,92 @@ public class Trigger implements IReadable {
     public int hashCode() {
         return Objects.hash(format, name, description, isComment, isEnabled, isCustom, isInitiallyOff, runOnInit, triggerCategoryId, totalEcas, ecas);
     }
+
+    public int getFormat() {
+        return format;
+    }
+
+    public void setFormat(int format) {
+        this.format = format;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getIsComment() {
+        return isComment;
+    }
+
+    public void setIsComment(int isComment) {
+        this.isComment = isComment;
+    }
+
+    public int getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(int isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    public int getIsCustom() {
+        return isCustom;
+    }
+
+    public void setIsCustom(int isCustom) {
+        this.isCustom = isCustom;
+    }
+
+    public int getIsInitiallyOff() {
+        return isInitiallyOff;
+    }
+
+    public void setIsInitiallyOff(int isInitiallyOff) {
+        this.isInitiallyOff = isInitiallyOff;
+    }
+
+    public int getRunOnInit() {
+        return runOnInit;
+    }
+
+    public void setRunOnInit(int runOnInit) {
+        this.runOnInit = runOnInit;
+    }
+
+    public int getTriggerCategoryId() {
+        return triggerCategoryId;
+    }
+
+    public void setTriggerCategoryId(int triggerCategoryId) {
+        this.triggerCategoryId = triggerCategoryId;
+    }
+
+    public int getTotalEcas() {
+        return totalEcas;
+    }
+
+    public void setTotalEcas(int totalEcas) {
+        this.totalEcas = totalEcas;
+    }
+
+    public List<ECA> getEcas() {
+        return ecas;
+    }
+
+    public void setEcas(List<ECA> ecas) {
+        this.ecas = ecas;
+    }
 }

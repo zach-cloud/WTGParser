@@ -87,4 +87,61 @@ public class ParameterV7 extends Parameter {
     public int hashCode() {
         return Objects.hash(type, value, hasSubParameters, subparameters, unknown, isArray, arrayIndex);
     }
+
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public int getHasSubParameters() {
+        return hasSubParameters;
+    }
+
+    public void setHasSubParameters(int hasSubParameters) {
+        this.hasSubParameters = hasSubParameters;
+    }
+
+    public Subparameters getSubparameters() {
+        return subparameters;
+    }
+
+    public void setSubparameters(Subparameters subparameters) {
+        this.subparameters = subparameters;
+    }
+
+    public int getUnknown() {
+        return unknown;
+    }
+
+    public void setUnknown(int unknown) {
+        this.unknown = unknown;
+    }
+
+    public int getIsArray() {
+        return isArray;
+    }
+
+    public void setIsArray(int isArray) {
+        this.isArray = isArray;
+    }
+
+    public Parameter getArrayIndex() {
+        return arrayIndex;
+    }
+
+    public void setArrayIndex(Parameter arrayIndex) {
+        this.arrayIndex = arrayIndex;
+    }
 }
