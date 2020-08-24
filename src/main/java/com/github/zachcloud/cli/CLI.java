@@ -14,7 +14,7 @@ public class CLI {
         String filename = in.nextLine();
         IWtgMapper mapper = new WtgMapper();
         WtgRoot root = mapper.read(filename);
-        System.out.println(root.toString());
+        System.out.println(root.convert(0));
     }
 
     public static void main(String[] args) {

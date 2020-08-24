@@ -12,14 +12,6 @@ public class ParameterV7 extends Parameter {
 
     private static final int FORMAT = 7;
 
-    private int type; // "x" (0 = PRESET, 1 = VARIABLE, 2 = FUNCTION, 3 = STRING, -1 = INVALID)
-    private String value;
-    private int hasSubParameters; // "y" (1 = yes, 0 = no)
-    private Subparameters subparameters; // (Only exists if y = yes)
-    private int unknown; // (Always 0, Only exists if "y" = yes)
-    private int isArray; // "z" (1 = yes, 0 = no)
-    private Parameter arrayIndex; // (Only exists if z = yes)
-
     /**
      * Reads from the linked Binary Reader into this structure.
      *

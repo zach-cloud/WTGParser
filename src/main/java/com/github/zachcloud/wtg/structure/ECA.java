@@ -1,15 +1,18 @@
 package com.github.zachcloud.wtg.structure;
 
+import com.github.zachcloud.interfaces.IPrintable;
 import com.github.zachcloud.interfaces.IReadable;
 import com.github.zachcloud.reader.BinaryReader;
 import com.github.zachcloud.triggerdata.TriggerDataMapping;
+import com.github.zachcloud.triggerdata.TriggerStringsMapping;
+import com.github.zachcloud.utils.StringFormatUtils;
 import com.github.zachcloud.wtg.WtgConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ECA implements IReadable {
+public class ECA implements IReadable, IPrintable {
 
     private int format;
     private boolean isChildECA;
@@ -52,6 +55,22 @@ public class ECA implements IReadable {
         if(format == WtgConstants.THE_FROZEN_THRONE_FORMAT) {
             readECAs(reader);
         }
+    }
+
+    /**
+     * Converts into a pretty string representation of object
+     *
+     * @param indentLevel How much this String should be indented by
+     * @return String representation of object
+     */
+    @Override
+    public String convert(int indentLevel) {
+        StringBuilder builder = new StringBuilder();
+        StringFormatUtils.indent(builder, indentLevel);
+        String weData = TriggerStringsMapping.getInstance().getEditorData(name);
+        weData = StringFormatUtils.formatWorldEditorData(weData, parameters);
+        builder.append(weData);
+        return builder.toString();
     }
 
     /**

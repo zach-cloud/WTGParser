@@ -1,7 +1,9 @@
 package com.github.zachcloud.wtg.structure;
 
+import com.github.zachcloud.interfaces.IPrintable;
 import com.github.zachcloud.interfaces.IReadable;
 import com.github.zachcloud.reader.BinaryReader;
+import com.github.zachcloud.utils.StringFormatUtils;
 import com.github.zachcloud.wtg.WtgConstants;
 
 import java.util.Objects;
@@ -9,7 +11,7 @@ import java.util.Objects;
 /**
  * A trigger categorory (folder)
  */
-public class TriggerCategory implements IReadable {
+public class TriggerCategory implements IReadable, IPrintable {
 
     private int format;
     private int id; // Id of category
@@ -37,6 +39,24 @@ public class TriggerCategory implements IReadable {
         if(format == WtgConstants.THE_FROZEN_THRONE_FORMAT) {
             isComment = reader.readInt();
         }
+    }
+
+    /**
+     * Converts into a pretty string representation of object
+     *
+     * @param indentLevel How much this String should be indented by
+     * @return String representation of object
+     */
+    @Override
+    public String convert(int indentLevel) {
+        StringBuilder builder = new StringBuilder();
+        StringFormatUtils.indent(builder, indentLevel);
+        builder.append("Category");
+        if(getIsComment() == WtgConstants.FLAG_YES) {
+            builder.append(" (Comment)");
+        }
+        builder.append(": ").append(getName());
+        return builder.toString();
     }
 
     @Override

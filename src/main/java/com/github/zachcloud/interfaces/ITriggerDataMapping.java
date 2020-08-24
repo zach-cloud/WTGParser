@@ -18,4 +18,20 @@ public interface ITriggerDataMapping {
      * @return      True if exists; false if not.
      */
     boolean contains(String key);
+
+    /**
+     * Gets the World Editor String for the specified parameter
+     *
+     * @param key   Parameter entry to get WESTRING for
+     * @return      WESTRING, or exception if not exists
+     */
+    String getWeString(String key);
+
+    /**
+     * Determines if the WESTRINGS mapping contains this parameter
+     *
+     * @param key Parameter entry
+     * @return True if exists; false if not.
+     */
+    boolean containsWeString(String key);
 }

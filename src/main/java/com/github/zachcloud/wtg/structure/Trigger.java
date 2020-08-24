@@ -1,14 +1,16 @@
 package com.github.zachcloud.wtg.structure;
 
+import com.github.zachcloud.interfaces.IPrintable;
 import com.github.zachcloud.interfaces.IReadable;
 import com.github.zachcloud.reader.BinaryReader;
+import com.github.zachcloud.utils.StringFormatUtils;
 import com.github.zachcloud.wtg.WtgConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Trigger implements IReadable {
+public class Trigger implements IReadable, IPrintable {
 
     private int format;
 
@@ -56,6 +58,65 @@ public class Trigger implements IReadable {
             eca.read(reader);
             ecas.add(eca);
         }
+    }
+
+    /**
+     * Converts into a pretty string representation of object
+     *
+     * @param indentLevel How much this String should be indented by
+     * @return String representation of object
+     */
+    @Override
+    public String convert(int indentLevel) {
+        StringBuilder builder = new StringBuilder();
+        StringFormatUtils.indent(builder, indentLevel);
+        builder.append("Trigger");
+        if(getIsComment() == WtgConstants.FLAG_YES) {
+            builder.append(" (Comment)");
+        }
+        builder.append(": ").append(getName()).append("\n");
+
+        if(getIsComment() != WtgConstants.FLAG_YES) {
+            indentLevel++;
+            StringFormatUtils.indent(builder, indentLevel);
+            builder.append("Events: ").append("\n");
+            for(ECA event : getEvents()) {
+                builder.append(event.convert(indentLevel+1)).append("\n");
+            }
+            StringFormatUtils.indent(builder, indentLevel);
+            builder.append("Conditions: ").append("\n");
+            for(ECA condition : getConditions()) {
+                builder.append(condition.convert(indentLevel+1)).append("\n");
+            }
+            StringFormatUtils.indent(builder, indentLevel);
+            builder.append("Actions: ").append("\n");
+            for(ECA action : getActions()) {
+                builder.append(action.convert(indentLevel+1)).append("\n");
+            }
+        }
+        return builder.toString();
+    }
+
+    private List<ECA> selectEcasMatching(int type) {
+        List<ECA> selectedEcas = new ArrayList<>();
+        for(ECA eca : ecas) {
+            if(eca.getType() == type) {
+                selectedEcas.add(eca);
+            }
+        }
+        return selectedEcas;
+    }
+
+    public List<ECA> getEvents() {
+        return selectEcasMatching(WtgConstants.ECA_EVENT);
+    }
+
+    public List<ECA> getConditions() {
+        return selectEcasMatching(WtgConstants.ECA_CONDITION);
+    }
+
+    public List<ECA> getActions() {
+        return selectEcasMatching(WtgConstants.ECA_ACTION);
     }
 
     @Override

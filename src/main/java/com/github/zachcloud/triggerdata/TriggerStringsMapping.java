@@ -2,10 +2,10 @@ package com.github.zachcloud.triggerdata;
 
 import com.github.zachcloud.exception.InternalException;
 import com.github.zachcloud.triggerdata.model.TriggerString;
+import com.github.zachcloud.utils.StringFormatUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -29,17 +29,17 @@ public class TriggerStringsMapping {
 
     /**
      * Sets up a default trigger data mapping
-     * Uses internal TriggerData.txt
+     * Uses internal TriggerStrings.txt
      */
     public TriggerStringsMapping() {
         setupMapping(new File(getClass().getClassLoader().getResource("com.github.zachcloud.triggerdata/TriggerStrings.txt").getFile()));
     }
 
     /**
-     * Sets up a trigger data mapping
+     * Sets up a trigger strings mapping
      * using the user-provided file
      *
-     * @param origin    TriggerData.txt file
+     * @param origin    TriggerStrings.txt file
      */
     public TriggerStringsMapping(File origin) {
         setupMapping(origin);
@@ -104,12 +104,7 @@ public class TriggerStringsMapping {
             throw new InternalException("Trigger strings entry does not exist: " + key);
         }
         String description = mapping.get(key).getDescription();
-        if (description.startsWith("\"")) {
-            description = description.substring(1);
-        }
-        if(description.endsWith("\"")) {
-            description = description.substring(0, description.length()-1);
-        }
+        description = StringFormatUtils.trimQuotes(description).trim();
         return description;
     }
 

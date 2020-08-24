@@ -11,20 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static com.github.zachcloud.triggerdata.DataConstants.*;
+
 /**
  * A class to represent the mapping between the TriggerData
  * content, which relates a function with its number of arguments.
  */
 public class TriggerDataMapping implements ITriggerDataMapping {
-
-    public static final String COMMENT_CHAR = "//";
-    public static final String COMMENT_FLAG = COMMENT_CHAR;
-    public static final String METADATA_FLAG = "_";
-    public static final String SECTION_START_FLAG = "[";
     /**
      * Internal mapping of trigger data entry to argument count
      */
     private Map<String,Integer> mapping;
+    private Map<String,String> weStrings;
 
     private static TriggerDataMapping instance;
 
@@ -60,6 +58,7 @@ public class TriggerDataMapping implements ITriggerDataMapping {
      */
     private void setupMapping(File mappingFile) {
         this.mapping = new HashMap<>();
+        this.weStrings = new HashMap<>();
         try {
             readTriggerDataFile(mappingFile);
         } catch (IOException ex) {
@@ -91,11 +90,32 @@ public class TriggerDataMapping implements ITriggerDataMapping {
                             currentSection.equals("TriggerConditions") ||
                             currentSection.equals("TriggerCalls")) {
                         saveMapping(currentSection, line);
+                    } else if(currentSection.equals("TriggerParams")) {
+                        saveWeString(line);
                     }
                 }
             }
         }
     }
+
+    /**
+     * Saves a World Editor String mapping.
+     *
+     * @param line  Entry from file
+     */
+    private void saveWeString(String line) {
+        String[] equalsParts = line.split("=", 2);
+        if(equalsParts.length == 2) {
+            String[] parts = equalsParts[1].split(",");
+            for(String part : parts) {
+                if(part.startsWith("WESTRING")) {
+                    weStrings.put(equalsParts[0], part);
+                }
+            }
+        }
+
+    }
+
 
     /**
      * Parses and saves mapping for this key/value.
@@ -174,6 +194,31 @@ public class TriggerDataMapping implements ITriggerDataMapping {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Gets the World Editor String for the specified parameter
+     *
+     * @param key   Parameter entry to get WESTRING for
+     * @return      WESTRING, or exception if not exists
+     */
+    @Override
+    public String getWeString(String key) {
+        if(!containsWeString(key)) {
+            throw new InternalException("Trigger data entry does not exist: " + key);
+        }
+        return weStrings.get(key);
+    }
+
+    /**
+     * Determines if the WESTRINGS mapping contains this parameter
+     *
+     * @param key Parameter entry
+     * @return True if exists; false if not.
+     */
+    @Override
+    public boolean containsWeString(String key) {
+        return weStrings.containsKey(key);
     }
 
     /**

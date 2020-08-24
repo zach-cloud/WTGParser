@@ -1,8 +1,10 @@
 package com.github.zachcloud.wtg.structure;
 
 import com.github.zachcloud.exception.WtgFormatException;
+import com.github.zachcloud.interfaces.IPrintable;
 import com.github.zachcloud.interfaces.IReadable;
 import com.github.zachcloud.reader.BinaryReader;
+import com.github.zachcloud.utils.StringFormatUtils;
 import com.github.zachcloud.wtg.WtgConstants;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import java.util.Objects;
 /**
  * The root of the WTG Structure.
  */
-public class WtgRoot implements IReadable {
+public class WtgRoot implements IReadable, IPrintable {
 
     private String fileId; // File ID: "WTG!"
     private int fileFormat; // 4 for RoC, 7 for TFT
@@ -139,6 +141,43 @@ public class WtgRoot implements IReadable {
                 ", triggerCount=" + triggerCount +
                 ", triggers=" + triggers +
                 '}';
+    }
+
+    /**
+     * Converts into a pretty string representation of object
+     *
+     * @param indentLevel How much this String should be indented by
+     * @return String representation of object
+     */
+    @Override
+    public String convert(int indentLevel) {
+        StringBuilder builder = new StringBuilder();
+        StringFormatUtils.indent(builder, indentLevel);
+        builder.append("War3map.wtg:\n");
+        StringFormatUtils.indent(builder, indentLevel);
+        builder.append("------------\n\n");
+        for(TriggerCategory category : triggerCategories) {
+            int id = category.getId();
+            // Find all triggers belonging to ID so we can print them under this category
+            List<Trigger> selectedTriggers = findTriggersForId(id);
+            builder.append("\n");
+            builder.append(category.convert(indentLevel+1));
+            builder.append("\n\n");
+            for(Trigger trigger : selectedTriggers) {
+                builder.append(trigger.convert(indentLevel+2)).append("\n\n");
+            }
+        }
+        return builder.toString();
+    }
+
+    private List<Trigger> findTriggersForId(int id) {
+        List<Trigger> selectedTriggers = new ArrayList<>();
+        for(Trigger trigger : triggers) {
+            if(trigger.getTriggerCategoryId() == id) {
+                selectedTriggers.add(trigger);
+            }
+        }
+        return selectedTriggers;
     }
 
     @Override
