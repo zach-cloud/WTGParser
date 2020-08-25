@@ -155,16 +155,24 @@ public class WtgRoot implements IReadable, IPrintable {
         StringFormatUtils.indent(builder, indentLevel);
         builder.append("War3map.wtg:\n");
         StringFormatUtils.indent(builder, indentLevel);
-        builder.append("------------\n\n");
+        builder.append("------------\n");
+        StringFormatUtils.indent(builder, indentLevel+1);
+        builder.append("Variables:\n\n");
+        for(Variable variable : variables) {
+            builder.append(variable.convert(indentLevel+2)).append("\n");
+        }
+        builder.append("\n");
+        StringFormatUtils.indent(builder, indentLevel);
+        builder.append("------------\n");
         for(TriggerCategory category : triggerCategories) {
             int id = category.getId();
             // Find all triggers belonging to ID so we can print them under this category
             List<Trigger> selectedTriggers = findTriggersForId(id);
             builder.append("\n");
             builder.append(category.convert(indentLevel+1));
-            builder.append("\n\n");
+            builder.append("\n");
             for(Trigger trigger : selectedTriggers) {
-                builder.append(trigger.convert(indentLevel+2)).append("\n\n");
+                builder.append(trigger.convert(indentLevel+2)).append("\n");
             }
         }
         return builder.toString();

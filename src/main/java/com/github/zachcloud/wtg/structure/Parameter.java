@@ -63,10 +63,24 @@ public abstract class Parameter implements IReadable, IPrintable {
 
                 }
             }
-            if (TriggerStringsMapping.getInstance().contains(value)) {
-                weData = TriggerStringsMapping.getInstance().getEditorData(value);
-                if (hasSubParameters == WtgConstants.FLAG_YES) {
-                    weData = StringFormatUtils.formatWorldEditorData(weData, subparameters.getParameters());
+            if (TriggerStringsMapping.getInstance().contains(value)
+                    || value.equals("")) {
+                if(!value.equals("")) {
+                    weData = TriggerStringsMapping.getInstance().getEditorData(value);
+                    if (hasSubParameters == WtgConstants.FLAG_YES) {
+                        weData = StringFormatUtils.formatWorldEditorData(weData, subparameters.getParameters());
+                    }
+                } else {
+                    // some sort of bug with if/then/else here...
+                    // investigate
+                    StringBuilder buildWeData = new StringBuilder();
+                    for(Parameter param : subparameters.getParameters()) {
+                        buildWeData.append(param.convert(0)).append(" ");
+                    }
+                    if(buildWeData.length() > 0) {
+                        buildWeData.setLength(buildWeData.length() - 1);
+                    }
+                    weData = buildWeData.toString();
                 }
             }
         }

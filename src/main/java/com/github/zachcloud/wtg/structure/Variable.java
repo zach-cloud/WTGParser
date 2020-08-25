@@ -1,7 +1,9 @@
 package com.github.zachcloud.wtg.structure;
 
+import com.github.zachcloud.interfaces.IPrintable;
 import com.github.zachcloud.interfaces.IReadable;
 import com.github.zachcloud.reader.BinaryReader;
+import com.github.zachcloud.utils.StringFormatUtils;
 import com.github.zachcloud.wtg.WtgConstants;
 
 import java.util.Objects;
@@ -9,7 +11,7 @@ import java.util.Objects;
 /**
  * A world editor variable
  */
-public class Variable implements IReadable {
+public class Variable implements IReadable, IPrintable {
 
     private int format;
 
@@ -59,6 +61,23 @@ public class Variable implements IReadable {
         if(unknown != 1) {
             System.out.println("Novelty: unknown value was not 1 (unknown = " + unknown + ")");
         }
+    }
+
+    /**
+     * Converts into a pretty string representation of object
+     *
+     * @param indentLevel How much this String should be indented by
+     * @return String representation of object
+     */
+    @Override
+    public String convert(int indentLevel) {
+        StringBuilder builder = new StringBuilder();
+        StringFormatUtils.indent(builder, indentLevel);
+        builder.append(name).append(" (").append(type).append(")");
+        if(isInitialized == WtgConstants.FLAG_YES) {
+            builder.append(" = ").append(initialValue);
+        }
+        return builder.toString();
     }
 
     @Override

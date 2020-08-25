@@ -8,4 +8,11 @@ public interface IWritable {
      * @return  Byte representation of object.
      */
     byte[] toBytes();
+
+    /**
+     * Gets the size (in bytes) of this component
+     *
+     * @return  Num. of bytes for component
+     */
+    int byteSize();
 }

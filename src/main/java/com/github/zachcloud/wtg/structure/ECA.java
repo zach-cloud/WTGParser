@@ -50,6 +50,9 @@ public class ECA implements IReadable, IPrintable {
             group = reader.readInt();
         }
         name = reader.readString();
+        if(name.equals("IfThenElse")) {
+            //System.out.println("Here1");
+        }
         isEnabled = reader.readInt();
         readParameters(reader);
         if(format == WtgConstants.THE_FROZEN_THRONE_FORMAT) {
@@ -69,6 +72,10 @@ public class ECA implements IReadable, IPrintable {
         StringFormatUtils.indent(builder, indentLevel);
         String weData = TriggerStringsMapping.getInstance().getEditorData(name);
         weData = StringFormatUtils.formatWorldEditorData(weData, parameters);
+        if(ecaCount > 0) {
+            // TODO: Write
+            System.out.println("TODO: Write me");
+        }
         builder.append(weData);
         return builder.toString();
     }
